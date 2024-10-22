@@ -1,4 +1,4 @@
-// Typography
+// Text
 
 @mixin h1 {
   font-size: 60px;
@@ -44,10 +44,11 @@
   }
 }
 
-@mixin text-normal {
+@mixin text-normal($color: $white) {
   font-size: 16px;
   line-height: 24px;
   font-weight: 500;
+  color: $color;
 
   @include breakpoint(md) {
     font-size: 20px;
@@ -55,10 +56,11 @@
   }
 }
 
-@mixin text-small {
+@mixin text-small($color: $white) {
   font-size: 14px;
   line-height: 24px;
   font-weight: 400;
+  color: $color;
 
   @include breakpoint(md) {
     font-size: 18px;
@@ -66,31 +68,23 @@
   }
 }
 
-@mixin text-small-bold {
+@mixin text-small-bold($color: $white) {
   @extend text-small;
   font-weight: 700;
+  color: $color;
+}
+
+@mixin link($color: $green-light) {
+  @extend text-small-bold;
+  color: $color;
+  transition: color .15ms;
+
+  &:hover {
+    color: $white;
+  }
 }
 
 // Media
-
-$breakpoints: (
-  sm: (
-    max: 360px,
-    min: 359.98px,
-  ),
-  md: (
-    max: 768px,
-    min: 767.98px
-  ),
-  lg: (
-    max: 1366px,
-    min: 1365.98px
-  ),
-  xl: (
-    max: 1920px,
-    min: 1919.98px
-  ),
-);
 
 @mixin breakpoint($breakpoint, $direction: min) {
 

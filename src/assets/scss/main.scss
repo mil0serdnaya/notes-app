@@ -1,2 +1,7 @@
-@use './variables';
-@use './mixins';
+@use "./global/normalize";
+
+#app {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+}
