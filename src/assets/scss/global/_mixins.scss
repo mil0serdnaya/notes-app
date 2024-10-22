@@ -1,42 +1,125 @@
 // Typography
 
 @mixin h1 {
-  font-size: 104px;
-  line-height: 104px;
+  font-size: 60px;
+  line-height: 64px;
   font-weight: 900;
+
+  @include breakpoint(lg) {
+    font-size: 104px;
+    line-height: 104px;
+  }
 }
 
 @mixin h2 {
-  font-size: 48px;
-  line-height: 72px;
+  font-size: 32px;
+  line-height: 36px;
   font-weight: 600;
+
+  @include breakpoint(lg) {
+    font-size: 48px;
+    line-height: 72px;
+  }
 }
 
 @mixin h3 {
-  font-size: 32px;
-  line-height: 48px;
+  font-size: 24px;
+  line-height: 36px;
   font-weight: 400;
+
+  @include breakpoint(lg) {
+    font-size: 32px;
+    line-height: 48px;
+  }
 }
 
 @mixin h4 {
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 20px;
+  line-height: 26px;
   font-weight: 600;
+
+  @include breakpoint(lg) {
+    font-size: 24px;
+    line-height: 32px;
+  }
 }
 
 @mixin text-normal {
-  font-size: 20px;
+  font-size: 16px;
+  line-height: 24px;
   font-weight: 500;
-  line-height: 32px;
+
+  @include breakpoint(md) {
+    font-size: 20px;
+    line-height: 32px;
+  }
 }
 
 @mixin text-small {
-  font-size: 18px;
+  font-size: 14px;
+  line-height: 24px;
   font-weight: 400;
-  line-height: 28px;
+
+  @include breakpoint(md) {
+    font-size: 18px;
+    line-height: 28px;
+  }
 }
 
 @mixin text-small-bold {
   @extend text-small;
   font-weight: 700;
+}
+
+// Media
+
+$breakpoints: (
+  sm: (
+    max: 360px,
+    min: 359.98px,
+  ),
+  md: (
+    max: 768px,
+    min: 767.98px
+  ),
+  lg: (
+    max: 1366px,
+    min: 1365.98px
+  ),
+  xl: (
+    max: 1920px,
+    min: 1919.98px
+  ),
+);
+
+@mixin breakpoint($breakpoint, $direction: min) {
+
+  @if map-has-key($breakpoints, $breakpoint) {
+    $breakpoint-values: map-get($breakpoints, $breakpoint);
+    $breakpoint-min: map-get($breakpoint-values, min);
+    $breakpoint-max: map-get($breakpoint-values, max);
+
+    @if $direction == min {
+      @media (min-width: $breakpoint-min) {
+        @content;
+      }
+    }
+    @else {
+      @media (max-width: $breakpoint-max) {
+         @content;
+      }
+    }
+  } @else {
+    
+    @if $direction == min {
+        @media (min-width: $breakpoint) {
+            @content;
+        }
+    }
+    @else {
+        @media (max-width: $breakpoint) {
+            @content;
+        }
+    }
+  }
 }
