@@ -1,8 +1,11 @@
+<script setup lang="ts">
+import AppHeader from '@/components/shared/AppHeader.vue';
+
+</script>
+
 <template>
   <div>
-    <header>
-      щдщдщ
-    </header>
+    <AppHeader />
     <main>
       <slot />
     </main>
