@@ -10,16 +10,9 @@
     <div class="hero__image-block">
       <picture>
         <source srcset="../assets/images/hero-xl.png" media="(min-width: 1919px)" />
-        <source srcset="../assets/images/hero-lg.png" media="(min-width: 1365px)" />
+        <source srcset="../assets/images/hero-lg.png" media="(min-width: 1359px)" />
         <source srcset="../assets/images/hero-md.png" media="(min-width: 767px)" />
         <img src="../assets/images/hero.png" alt="Рука у доски с заметками" class="hero__image" />
-      </picture>
-
-      <picture>
-        <source srcset="../assets/images/svg/hero-back-xl.svg" media="(min-width: 1919px)" />
-        <source srcset="../assets/images/svg/hero-back-lg.svg" media="(min-width: 1365px)" />
-        <source srcset="../assets/images/svg/hero-back-md.svg" media="(min-width: 767px)" />
-        <img src="../assets/images/svg/hero-back.svg" alt="Дополнительная графика" class="hero__svg" />
       </picture>
     </div>
   </section>
@@ -32,11 +25,31 @@
   align-items: center;
   padding: 20px 20px 0 20px;
 
+  @include breakpoint(md) {
+    padding: 40px 40px 0 40px;
+  }
+
+  @include breakpoint(lg) {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 80px;
+  }
+
+  @include breakpoint(xl) {
+    padding: 0 160px;
+  }
+
   &__text-block {
     text-align: center;
     display: grid;
     gap: 20px;
     margin-bottom: 20px;
+
+    @include breakpoint(lg) {
+      text-align: left;
+      gap: 40px;
+      margin: 0;
+    }
   }
 
   &__heading {
@@ -51,20 +64,19 @@
     & {
       color: $gray;
     }
+    @include breakpoint(lg) {
+      max-width: 400px;
+    }
   }
 
   &__image-block {
-    position: relative;
     display: flex;
-    flex-direction: column;
     align-items: center;
   }
 
   &__image {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    width: 100%;
+    height: auto;
   }
 
   &__svg {
