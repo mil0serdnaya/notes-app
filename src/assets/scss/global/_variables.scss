@@ -13,23 +13,3 @@ $green-middle: #97AB0D;
 $green-dark: #819400;
 
 $white: #FFFFFF;
-
-// Media
-$breakpoints: (
-  sm: (
-    max: 360px,
-    min: 359.98px,
-  ),
-  md: (
-    max: 768px,
-    min: 767.98px
-  ),
-  lg: (
-    max: 1366px,
-    min: 1365.98px
-  ),
-  xl: (
-    max: 1920px,
-    min: 1919.98px
-  ),
-);

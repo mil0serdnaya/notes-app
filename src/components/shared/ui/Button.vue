@@ -43,6 +43,33 @@ const hasLabel = computed(() => !!props.label);
   </button>
 </template>
 
-<style scoped>
+<style lang="scss">
+.button {
+  min-height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: $white;
+  border-radius: 32px;
+  padding: 0 24px;
+  gap: 12px;
+  background-color: $green-light;
+  transition: all .15s ease-out;
 
+  &:hover {
+    background-color: $green-middle;
+  }
+
+  &:active {
+    background-color: $green-dark;
+  }
+
+  &:disabled {
+    background-color: $gray;
+  }
+
+  &__label {
+    @include btn-text;
+  }
+}
 </style>

@@ -1,3 +1,5 @@
+@use "./variables";
+
 // Text
 
 @mixin h1 {
@@ -44,7 +46,7 @@
   }
 }
 
-@mixin text-normal($color: $white) {
+@mixin text-normal($color: #FFFFFF) {
   font-size: 16px;
   line-height: 24px;
   font-weight: 500;
@@ -54,6 +56,12 @@
     font-size: 20px;
     line-height: 32px;
   }
+}
+
+@mixin btn-text($color: #FFFFFF) {
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 500;
 }
 
 @mixin text-small($color: $white) {
@@ -68,7 +76,7 @@
   }
 }
 
-@mixin text-small-bold($color: $white) {
+@mixin text-small-bold($color: #FFFFFF) {
   @extend text-small;
   font-weight: 700;
   color: $color;
@@ -86,8 +94,26 @@
 
 // Media
 
-@mixin breakpoint($breakpoint, $direction: min) {
+$breakpoints: (
+  sm: (
+    max: 360px,
+    min: 359.98px,
+  ),
+  md: (
+    max: 768px,
+    min: 767.98px
+  ),
+  lg: (
+    max: 1366px,
+    min: 1365.98px
+  ),
+  xl: (
+    max: 1920px,
+    min: 1919.98px
+  ),
+);
 
+@mixin breakpoint($breakpoint, $direction: min) {
   @if map-has-key($breakpoints, $breakpoint) {
     $breakpoint-values: map-get($breakpoints, $breakpoint);
     $breakpoint-min: map-get($breakpoint-values, min);
@@ -97,23 +123,21 @@
       @media (min-width: $breakpoint-min) {
         @content;
       }
-    }
-    @else {
+    } @else {
       @media (max-width: $breakpoint-max) {
-         @content;
+        @content;
       }
     }
   } @else {
-    
     @if $direction == min {
-        @media (min-width: $breakpoint) {
-            @content;
-        }
-    }
-    @else {
-        @media (max-width: $breakpoint) {
-            @content;
-        }
+      @media (min-width: $breakpoint) {
+        @content;
+      }
+    } @else {
+      @media (max-width: $breakpoint) {
+        @content;
+      }
     }
   }
 }
+
