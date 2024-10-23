@@ -1,84 +1,110 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import Button from '../shared/ui/Button.vue';
 import IconClose from '../icons/IconClose.vue';
 import IconPasswordOn from '../icons/IconPasswordOn.vue';
 import IconPasswordOff from '../icons/IconPasswordOff.vue';
 
+
 const email = ref('');
 const password = ref('');
 const showPassword = ref(false);
+const isModalOpen = ref(true);
 
-function togglePasswordVisibility() {
+const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
-}
+};
 
-function login() {
+const login = () => {
   console.log('Email:', email.value);
   console.log('Password:', password.value);
-}
+};
 
-function register() {
+const register = () => {
   console.log('Регистрация');
-}
+};
 
-function close() {
-  console.log('Закрыть модальное окно');
-}
+const closeModal = () => {
+  isModalOpen.value = false;
+};
+
+const toggleBodyScroll = (disableScroll: boolean) => {
+  if (disableScroll) {
+    document.body.classList.add('no-scroll');
+  } else {
+    document.body.classList.remove('no-scroll');
+  }
+};
+
+watch(isModalOpen, (newValue) => {
+  toggleBodyScroll(newValue);
+});
+
+onMounted(() => {
+  toggleBodyScroll(isModalOpen.value);
+});
+
+onBeforeUnmount(() => {
+  toggleBodyScroll(false);
+});
+
 </script>
 
 <template>
   <transition name="fade">
-    <div class="modal-overlay" @click.self="close">
+    <div v-if="isModalOpen" class="modal-overlay" @click.self="closeModal">
       <section class="modal" role="dialog" aria-labelledby="modal__title" aria-modal="true">
         <header class="modal__header">
           <h2 id="modal__title" class="modal__title">Вход в ваш аккаунт</h2>
           <Button 
             :icon="IconClose"
             variant="round"
-            @click="close" 
+            @click="closeModal" 
             aria-label="Закрыть окно" 
             class="modal__close"
           />
         </header>
         
         <form @submit.prevent="login" class="modal-form">
-          <div class="modal-form__input-block">
-            <label for="email" class="modal-form__label">Email</label>
-            <input 
-              id="email" 
-              type="email" 
-              v-model="email" 
-              placeholder="Введите Email" 
-              class="modal-form__input" 
-              required 
-              aria-describedby="email-error"
-            />
-          </div>
-
-          <div class="modal-form__input-block">
-            <label for="password" class="modal-form__label">Пароль</label>
-            <div class="modal-form__password">
+          <div class="modal-form__inputs">
+            <div class="modal-form__input-block">
+              <label for="email" class="modal-form__label">Email</label>
               <input 
-                id="password" 
-                :type="showPassword ? 'text' : 'password'" 
-                v-model="password" 
-                placeholder="Введите пароль" 
+                id="email" 
+                type="email" 
+                v-model="email" 
+                placeholder="Введите Email" 
                 class="modal-form__input" 
                 required 
-                aria-describedby="password-error"
+                aria-describedby="email-error"
               />
-              <button 
-                type="button" 
-                class="modal-form__password-toggle" 
-                @click="togglePasswordVisibility" 
-                aria-label="Показать или скрыть пароль"
-              >
-                <IconPasswordOff v-if="showPassword" />
-                <IconPasswordOn v-else/>
-              </button>
+            </div>
+
+            <div class="modal-form__input-block">
+              <label for="password" class="modal-form__label">Пароль</label>
+              <div class="modal-form__password">
+                <input 
+                  id="password" 
+                  :type="showPassword ? 'text' : 'password'" 
+                  v-model="password" 
+                  placeholder="Введите пароль" 
+                  class="modal-form__input" 
+                  required 
+                  aria-describedby="password-error"
+                />
+                <button 
+                  type="button" 
+                  class="modal-form__password-toggle" 
+                  @click="togglePasswordVisibility" 
+                  aria-label="Показать или скрыть пароль"
+                >
+                  <IconPasswordOff v-if="showPassword" />
+                  <IconPasswordOn v-else/>
+                </button>
+              </div>
             </div>
           </div>
+
           <div class="modal-form__footer">
             <Button 
               type="submit"
@@ -90,7 +116,7 @@ function close() {
             />
             <div class="modal-form__register">
               <span>У вас нет аккаунта? </span>
-              <a href="#" @click.prevent="register" class="modal__register-link">Зарегистрируйтесь</a>
+              <a href="#" @click.prevent="register" class="modal-form__register-link">Зарегистрируйтесь</a>
             </div>
           </div>
           <div class="modal-form__error">
@@ -174,17 +200,20 @@ function close() {
       right: 20px;
     }
   }
-
-  &__register-link {
-    @include link;
-    color: $green-light;
-  }
 }
 
 .modal-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+
+  &__inputs {
+    display: grid;
+    gap: 16px;
+
+    @include breakpoint(md) {
+      gap: 24px;
+    }
+  }
 
   &__label {
     @include label-text;
@@ -261,6 +290,7 @@ function close() {
     background-color: rgba($error, 0.1);
     padding: 8px 20px;
     border-radius: 24px;
+    margin-top: 12px;
 
     @include breakpoint(md) {
       @include label-text;
@@ -277,10 +307,10 @@ function close() {
     flex-direction: column;
     justify-content: center;
     gap: 12px;
-    margin-top: 12px;
+    margin-top: 24px;
 
     @include breakpoint(md) {
-      margin-top: 28px;
+      margin-top: 40px;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
@@ -313,6 +343,10 @@ function close() {
       flex-direction: row;
     }
   }
-}
 
+  &__register-link {
+    @include link;
+    color: $green-light;
+  }
+}
 </style>
