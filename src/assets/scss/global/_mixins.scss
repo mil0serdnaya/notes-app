@@ -1,7 +1,6 @@
 @use "./variables";
 
 // Text
-
 @mixin h1 {
   font-size: 60px;
   line-height: 64px;
@@ -18,7 +17,7 @@
   line-height: 36px;
   font-weight: 600;
 
-  @include breakpoint(lg) {
+  @include breakpoint(md) {
     font-size: 48px;
     line-height: 72px;
   }
@@ -58,17 +57,16 @@
   }
 }
 
-@mixin btn-text($color: #FFFFFF) {
+@mixin btn-text {
   font-size: 20px;
   line-height: 32px;
   font-weight: 500;
 }
 
-@mixin text-small($color: $white) {
+@mixin text-small {
   font-size: 14px;
   line-height: 24px;
   font-weight: 400;
-  color: $color;
 
   @include breakpoint(md) {
     font-size: 18px;
@@ -76,24 +74,26 @@
   }
 }
 
-@mixin text-small-bold($color: #FFFFFF) {
-  @extend text-small;
+@mixin text-small-bold {
+  @include text-small;
   font-weight: 700;
-  color: $color;
 }
 
-@mixin link($color: $green-light) {
-  @extend text-small-bold;
-  color: $color;
-  transition: color .15ms;
+@mixin link {
+  @include text-small-bold;
+  transition: color .15s;
 
   &:hover {
-    color: $white;
+    color: #FFFFFF;
   }
 }
 
-// Media
+@mixin label-text {
+  font-size: 18px;
+  line-height: 28px;
+}
 
+// Media
 $breakpoints: (
   sm: (
     max: 360px,

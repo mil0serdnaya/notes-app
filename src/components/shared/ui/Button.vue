@@ -4,7 +4,6 @@ import { computed } from 'vue';
 interface ButtonProps {
   label?: string;
   size?: "small" | "medium" | "large";
-  color?: "green";
   type?: "button" | "submit";
   variant?: "text" | "contained" | "round";
   icon?: any; 
@@ -13,13 +12,11 @@ interface ButtonProps {
 
 const props = withDefaults(defineProps<ButtonProps>(), {
   size: "medium",
-  color: "green",
   type: "button",
   variant: "contained",
   disabled: false,
 });
 
-const hasIcon = computed(() => !!props.icon);
 const hasLabel = computed(() => !!props.label);
 </script>
 
@@ -30,14 +27,12 @@ const hasLabel = computed(() => !!props.label);
     class="button"
     :class="[
       `button--${size}`,
-      `button--${color}`,
       `button--${variant}`,
-      { 'button--with-icon': hasIcon },
     ]"
   >
-    <span v-if="icon" class="button__icon">
+    <div v-if="icon" class="button__icon">
       <component :is="icon" />
-    </span>
+    </div>
 
     <span v-if="hasLabel" class="button__label">{{ label }}</span>
   </button>
@@ -70,6 +65,28 @@ const hasLabel = computed(() => !!props.label);
 
   &__label {
     @include btn-text;
+    color: $white;
+  }
+
+  &--round {
+    border-radius: 50%;
+    width: 56px;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    .button__icon {
+      padding-top: 4px;
+    }
+  }
+
+  &--text {
+    justify-content: center;
+  }
+
+  &--large {
+    width: 100%;
   }
 }
 </style>
