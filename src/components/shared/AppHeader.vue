@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useModalStore } from '@/stores/modalStore';
 import Logo from '../icons/Logo.vue';
 import IconLogin from '../icons/IconLogin.vue';
 import Button from './ui/Button.vue';
+
+const modalStore = useModalStore();
 </script>
 
 <template>
@@ -12,7 +15,7 @@ import Button from './ui/Button.vue';
       </RouterLink>
     </div>
     <div>
-      <Button label="Вход" :icon="IconLogin" />
+      <Button label="Вход" :icon="IconLogin" @click="modalStore.openLoginModal"/>
     </div>
   </header>
 </template>

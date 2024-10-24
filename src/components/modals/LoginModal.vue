@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
+import { ref, watch } from 'vue';
+import { useModalStore } from '@/stores/modalStore';
 import Button from '../shared/ui/Button.vue';
 import IconClose from '../icons/IconClose.vue';
 import IconPasswordOn from '../icons/IconPasswordOn.vue';
 import IconPasswordOff from '../icons/IconPasswordOff.vue';
 
-
+const modalStore = useModalStore();
 const email = ref('');
 const password = ref('');
+const error = ref(null);
 const showPassword = ref(false);
-const isModalOpen = ref(true);
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
@@ -20,14 +21,6 @@ const login = () => {
   console.log('Password:', password.value);
 };
 
-const register = () => {
-  console.log('Регистрация');
-};
-
-const closeModal = () => {
-  isModalOpen.value = false;
-};
-
 const toggleBodyScroll = (disableScroll: boolean) => {
   if (disableScroll) {
     document.body.classList.add('no-scroll');
@@ -36,31 +29,26 @@ const toggleBodyScroll = (disableScroll: boolean) => {
   }
 };
 
-watch(isModalOpen, (newValue) => {
-  toggleBodyScroll(newValue);
-});
-
-onMounted(() => {
-  toggleBodyScroll(isModalOpen.value);
-});
-
-onBeforeUnmount(() => {
-  toggleBodyScroll(false);
-});
+watch(
+  () => modalStore.isLoginModalOpen,
+  (newValue) => {
+    toggleBodyScroll(newValue);
+  }
+);
 
 </script>
 
 <template>
   <transition name="fade">
-    <div v-if="isModalOpen" class="modal-overlay" @click.self="closeModal">
+    <div v-if="modalStore.isLoginModalOpen" class="modal-overlay" @click.self="modalStore.closeModals">
       <section class="modal" role="dialog" aria-labelledby="modal__title" aria-modal="true">
         <header class="modal__header">
           <h2 id="modal__title" class="modal__title">Вход в ваш аккаунт</h2>
           <Button 
             :icon="IconClose"
             variant="round"
-            @click="closeModal" 
-            aria-label="Закрыть окно" 
+            @click="modalStore.closeModals"
+            aria-label="Закрыть окно"
             class="modal__close"
           />
         </header>
@@ -116,10 +104,10 @@ onBeforeUnmount(() => {
             />
             <div class="modal-form__register">
               <span>У вас нет аккаунта? </span>
-              <a href="#" @click.prevent="register" class="modal-form__register-link">Зарегистрируйтесь</a>
+              <a href="#" @click.prevent="modalStore.openRegisterModal" class="modal-form__register-link">Зарегистрируйтесь</a>
             </div>
           </div>
-          <div class="modal-form__error">
+          <div v-if="error" class="modal-form__error">
             <span>
               Пользователь с таким логином не найден
             </span>
@@ -134,138 +122,54 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(10, 31, 56, 0.7);
-  display: flex;
-  align-items: center;
-  z-index: 1000;
-
-  @include breakpoint(md) {
-    justify-content: center;
-  }
+  @include modal-overlay;
 }
 
 .modal {
-  background: rgba(27, 47, 70, 1);
-  border-radius: 40px;
-  padding: 80px 16px;
-  width: 100%;
-  max-height: 100%;
-  overflow-y: scroll;
-  position: relative;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-
-  @include breakpoint(md) {
-    max-width: 688px;
-    padding: 56px;
-    max-height: unset;
-    overflow-y: unset;
-  }
-
-  @include breakpoint(lg) {
-    max-width: 594px;
-  }
-
-  @include breakpoint(xl) {
-    max-width: 780px;
-    padding: 80px;
-  }
+  @include modal;
 
   &__header {
-    margin-bottom: 28px;
-
-    @include breakpoint(md) {
-      margin-bottom: 40px;
-    }
+    @include modal-header;
   }
 
   &__title {
-    @include h2;
-    & {
-      color: $white;
-    }
+    @include modal-title;
   }
 
   &__close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-
-    @include breakpoint(md) {
-      top: 20px;
-      right: 20px;
-    }
+    @include modal-close;
   }
 }
 
 .modal-form {
-  display: flex;
-  flex-direction: column;
+  @include flex-center(column, center, normal);
 
   &__inputs {
     display: grid;
-    gap: 16px;
-
-    @include breakpoint(md) {
-      gap: 24px;
-    }
+    @include responsive-gap(16px, 24px);
   }
 
   &__label {
     @include label-text;
     margin-bottom: 8px;
     padding-left: 24px;
-
-    & {
-      color: $gray;
-    }
+    color: $gray;
   }
 
   &__input {
-    border: none;
-    min-height: 72px;
-    border-radius: 36px;
-    padding: 10px 28px;
-    @include label-text;
-    color: $dark;
     width: 100%;
-    box-sizing: border-box;
     margin-top: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid transparent;
-    transition: all .15s;
-
-    &::placeholder {
-      @include label-text;
-      color: $gray;
-    }
-
-    &:hover {
-      border: 2px solid $green-light;
-    }
-
-    &:active {
-      outline: 2px solid $green-light;
-    }
-
-    &:focus-visible {
-      outline: none;
-    }
+    @include input-style();
+    @include label-text;
   }
 
   &__password {
-    display: flex;
-    align-items: center;
+    @include flex-center(row, flex-start, center);
     position: relative;
   }
 
   &__password-toggle {
+    padding-top: 8px;
     background: none;
     border: none;
     color: #6b7280;
@@ -278,9 +182,7 @@ onBeforeUnmount(() => {
   }
 
   &__input-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @include flex-center(row, space-between, center);
     padding: 0 24px;
   }
 
@@ -303,16 +205,13 @@ onBeforeUnmount(() => {
   }
 
   &__footer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    @include flex-center(column, center);
     gap: 12px;
     margin-top: 24px;
 
     @include breakpoint(md) {
       margin-top: 40px;
       flex-direction: row;
-      align-items: center;
       justify-content: space-between;
     }
   }
@@ -325,9 +224,8 @@ onBeforeUnmount(() => {
   }
 
   &__register {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
+    @include flex-center(row, center);
+    gap: 4px;
     @include text-small;
     color: $gray;
 
@@ -349,4 +247,5 @@ onBeforeUnmount(() => {
     color: $green-light;
   }
 }
+
 </style>
