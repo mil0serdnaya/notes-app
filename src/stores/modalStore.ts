@@ -5,14 +5,9 @@ export const useModalStore = defineStore('modal', () => {
   const isLoginModalOpen = ref(false);
   const isRegisterModalOpen = ref(false);
 
-  const openLoginModal = () => {
-    isLoginModalOpen.value = true;
-    isRegisterModalOpen.value = false;
-  };
-
-  const openRegisterModal = () => {
-    isRegisterModalOpen.value = true;
-    isLoginModalOpen.value = false;
+  const openModal = (type: 'login' | 'register') => {
+    isLoginModalOpen.value = type === 'login';
+    isRegisterModalOpen.value = type === 'register';
   };
 
   const closeModals = () => {
@@ -23,8 +18,7 @@ export const useModalStore = defineStore('modal', () => {
   return {
     isLoginModalOpen,
     isRegisterModalOpen,
-    openLoginModal,
-    openRegisterModal,
+    openModal,
     closeModals,
   };
 });

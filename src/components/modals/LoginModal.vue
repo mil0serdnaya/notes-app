@@ -97,7 +97,7 @@ watch(
             />
             <div class="modal-form__register">
               <span>У вас нет аккаунта? </span>
-              <a href="#" @click.prevent="modalStore.openRegisterModal" class="modal-form__register-link">Зарегистрируйтесь</a>
+              <a href="#" @click.prevent="modalStore.openModal('register')" class="modal-form__register-link">Зарегистрируйтесь</a>
             </div>
           </div>
           <div v-if="error" class="modal-form__error">

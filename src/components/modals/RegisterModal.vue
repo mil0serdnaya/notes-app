@@ -117,7 +117,7 @@ watch(
             />
             <div class="modal-form__register">
               <span>У вас есть аккаунт? </span>
-              <a href="#" @click.prevent="modalStore.openLoginModal" class="modal-form__register-link">Войдите</a>
+              <a href="#" @click.prevent="modalStore.openModal('login')" class="modal-form__register-link">Войдите</a>
             </div>
           </div>
         </form>
