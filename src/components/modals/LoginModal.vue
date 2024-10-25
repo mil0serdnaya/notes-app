@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useModalStore } from '@/stores/modalStore';
+import { toggleBodyScroll } from '@/utils/utils';
 import Button from '../shared/ui/Button.vue';
 import IconClose from '../icons/IconClose.vue';
 import IconPasswordOn from '../icons/IconPasswordOn.vue';
@@ -12,21 +13,13 @@ const password = ref('');
 const error = ref(null);
 const showPassword = ref(false);
 
-const togglePasswordVisibility = () => {
-  showPassword.value = !showPassword.value;
-};
-
 const login = () => {
   console.log('Email:', email.value);
   console.log('Password:', password.value);
 };
 
-const toggleBodyScroll = (disableScroll: boolean) => {
-  if (disableScroll) {
-    document.body.classList.add('no-scroll');
-  } else {
-    document.body.classList.remove('no-scroll');
-  }
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value;
 };
 
 watch(

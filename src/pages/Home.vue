@@ -9,6 +9,6 @@ import RegisterModal from '@/components/modals/RegisterModal.vue';
   <DefaultLayout>
     <Hero />
     <LoginModal />
-    <!-- <RegisterModal /> -->
+    <RegisterModal />
   </DefaultLayout>
 </template>

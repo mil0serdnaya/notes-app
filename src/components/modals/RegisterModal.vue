@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
+import { ref, watch } from 'vue';
+import { useModalStore } from '@/stores/modalStore';
+import { toggleBodyScroll } from '@/utils/utils';
 import Button from '../shared/ui/Button.vue';
 import IconClose from '../icons/IconClose.vue';
 import IconPasswordOn from '../icons/IconPasswordOn.vue';
 import IconPasswordOff from '../icons/IconPasswordOff.vue';
 
+const modalStore = useModalStore();
+const email = ref('');
 const password = ref('');
 const showPassword = ref(false);
 
@@ -12,23 +16,34 @@ const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
 };
 
+const register = () => {
+  console.log('Регистрация:', email.value, password.value);
+};
+
+watch(
+  () => modalStore.isRegisterModalOpen,
+  (newValue) => {
+    toggleBodyScroll(newValue);
+  }
+);
 </script>
 
 <template>
   <transition name="fade">
-    <div class="modal-overlay">
+    <div v-if="modalStore.isRegisterModalOpen" class="modal-overlay" @click.self="modalStore.closeModals">
       <section class="modal modal-register" role="dialog" aria-labelledby="modal__title" aria-modal="true">
         <header class="modal__header">
           <h2 id="modal__title" class="modal__title">Регистрация</h2>
           <Button 
             :icon="IconClose"
             variant="round"
+            @click="modalStore.closeModals"
             aria-label="Закрыть окно" 
             class="modal__close"
           />
         </header>
         
-        <form class="modal-form">
+        <form @submit.prevent="register" class="modal-form">
           <div class="modal-form__inputs">
             <div class="modal-form__input-block">
               <label for="email" class="modal-form__label">Email</label>
@@ -102,7 +117,7 @@ const togglePasswordVisibility = () => {
             />
             <div class="modal-form__register">
               <span>У вас есть аккаунт? </span>
-              <a href="#" class="modal-form__register-link">Войдите</a>
+              <a href="#" @click.prevent="modalStore.openLoginModal" class="modal-form__register-link">Войдите</a>
             </div>
           </div>
         </form>
@@ -118,6 +133,20 @@ const togglePasswordVisibility = () => {
 
 .modal {
   @include modal;
+  padding: 40px 16px;
+
+  @include breakpoint(md) {
+    padding: 56px;
+  }
+
+  @include breakpoint(lg) {
+    max-width: 594px;
+  }
+
+  @include breakpoint(xl) {
+    max-width: 780px;
+    padding: 80px;
+  }
 
   &__header {
     @include modal-header;
@@ -133,69 +162,34 @@ const togglePasswordVisibility = () => {
 }
 
 .modal-form {
-  display: flex;
-  flex-direction: column;
+  @include flex-center(column, center, normal);
 
   &__inputs {
     display: grid;
-    gap: 16px;
-
-    @include breakpoint(md) {
-      gap: 24px;
-    }
+    @include responsive-gap(16px, 24px);
   }
 
   &__label {
     @include label-text;
     margin-bottom: 8px;
     padding-left: 24px;
-
-    & {
-      color: $gray;
-    }
+    color: $gray;
   }
 
   &__input {
-    border: none;
-    min-height: 72px;
-    border-radius: 36px;
-    padding: 10px 28px;
-    @include label-text;
-    color: $dark;
     width: 100%;
-    box-sizing: border-box;
     margin-top: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid transparent;
-    transition: all .15s;
-
-    &::placeholder {
-      @include label-text;
-      color: $gray;
-    }
-
-    &:hover {
-      border: 2px solid $green-light;
-    }
-
-    &:active {
-      outline: 2px solid $green-light;
-    }
-
-    &:focus-visible {
-      outline: none;
-    }
+    @include input-style();
+    @include label-text;
   }
 
   &__password {
-    display: flex;
-    align-items: center;
+    @include flex-center(row, flex-start, center);
     position: relative;
   }
 
   &__password-toggle {
+    padding-top: 8px;
     background: none;
     border: none;
     color: #6b7280;
@@ -208,9 +202,7 @@ const togglePasswordVisibility = () => {
   }
 
   &__input-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @include flex-center(row, space-between, center);
     padding: 0 24px;
   }
 
@@ -232,48 +224,7 @@ const togglePasswordVisibility = () => {
     color: $gray;
   }
 
-  &__submit {
-    @include breakpoint(md) {
-      order: 2;
-      max-width: 114px;
-    }
-  }
-
-  &__register-link {
-    @include link;
-    color: $green-light;
-  }
-}
-/* стили для RegisterModal */
-.modal-register {
-  padding: 40px 16px;
-
-  @include breakpoint(md) {
-    padding: 56px;
-  }
-
-  @include breakpoint(lg) {
-    max-width: 594px;
-  }
-
-  @include breakpoint(xl) {
-    max-width: 780px;
-    padding: 80px;
-  }
-
-  & .modal-form__register {
-    display: flex;
-    justify-content: center;
-    gap: 4px;
-    @include text-small;
-    color: $gray;
-
-    @include breakpoint(md) {
-      order: 1;
-    }
-  }
-
-  & .modal-form__footer {
+  &__footer {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -287,5 +238,38 @@ const togglePasswordVisibility = () => {
       justify-content: space-between;
     }
   }
+
+  &__submit {
+    @include breakpoint(md) {
+      order: 2;
+      max-width: 270px;
+    }
+  }
+
+  &__register {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    @include text-small;
+    color: $gray;
+
+    @include breakpoint(md) {
+      order: 1;
+    }
+
+    @include breakpoint(lg) {
+      flex-direction: column;
+    }
+
+    @include breakpoint(xl) {
+      flex-direction: row;
+    }
+  }
+
+  &__register-link {
+    @include link;
+    color: $green-light;
+  }
 }
+
 </style>
