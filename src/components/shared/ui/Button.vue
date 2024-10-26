@@ -5,6 +5,7 @@ interface ButtonProps {
   label?: string;
   size?: "small" | "medium" | "large";
   type?: "button" | "submit";
+  color?: "green" | "dark";
   variant?: "text" | "contained" | "round";
   icon?: any; 
   disabled?: boolean;
@@ -13,6 +14,7 @@ interface ButtonProps {
 const props = withDefaults(defineProps<ButtonProps>(), {
   size: "medium",
   type: "button",
+  color: "green",
   variant: "contained",
   disabled: false,
 });
@@ -28,6 +30,7 @@ const hasLabel = computed(() => !!props.label);
     :class="[
       `button--${size}`,
       `button--${variant}`,
+      `button--${color}`,
     ]"
   >
     <div v-if="icon" class="button__icon">
@@ -40,7 +43,7 @@ const hasLabel = computed(() => !!props.label);
 
 <style lang="scss">
 .button {
-  min-height: 56px;
+  height: 56px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,16 +51,7 @@ const hasLabel = computed(() => !!props.label);
   border-radius: 32px;
   padding: 0 24px;
   gap: 12px;
-  background-color: $green-light;
   transition: all .15s ease-out;
-
-  &:hover {
-    background-color: $green-middle;
-  }
-
-  &:active {
-    background-color: $green-dark;
-  }
 
   &:disabled {
     background-color: $gray;
@@ -87,6 +81,26 @@ const hasLabel = computed(() => !!props.label);
 
   &--large {
     width: 100%;
+  }
+
+  &--green {
+    background-color: $green-light;
+
+    &:hover {
+      background-color: $green-middle;
+    }
+
+    &:active {
+      background-color: $green-dark;
+    }
+  }
+
+  &--dark {
+    background-color: $dark-middle;
+
+    &:hover {
+      background-color: $dark-light;
+    }
   }
 }
 </style>

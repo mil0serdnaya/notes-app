@@ -127,6 +127,7 @@
 
 @mixin link {
   @include text-small-bold;
+  color: $green-light;
   transition: color .15s;
 
   &:hover {
