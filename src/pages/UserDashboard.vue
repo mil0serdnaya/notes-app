@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import DefaultLayout from '@/layouts/DefaultLayout.vue';
+import Notes from '@/components/Notes.vue';
 import Button from '@/components/shared/ui/Button.vue';
 import IconPlus from '@/components/icons/IconPlus.vue';
 </script>
 
 <template>
   <DefaultLayout>
+    <Notes />
     <div class="add-note">
       <Button 
         :icon="IconPlus"
@@ -20,6 +22,7 @@ import IconPlus from '@/components/icons/IconPlus.vue';
 
 <style scoped lang="scss">
 .add-note {
+  display: none;
   &__btn {
     position: absolute;
     bottom: 40px;

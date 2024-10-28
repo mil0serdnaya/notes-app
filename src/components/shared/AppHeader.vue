@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
 import { useModalStore } from '@/stores/modalStore';
 import IconLogin from '../icons/IconLogin.vue';
 import IconUser from '../icons/IconUser.vue';
