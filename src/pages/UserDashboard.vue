@@ -22,9 +22,8 @@ import IconPlus from '@/components/icons/IconPlus.vue';
 
 <style scoped lang="scss">
 .add-note {
-  display: none;
   &__btn {
-    position: absolute;
+    position: fixed;
     bottom: 40px;
     right: 8px;
     box-shadow: 0px 15px 46px -10px #00000099;

@@ -144,7 +144,7 @@ import Button from '@/components/shared/ui/Button.vue';
       right: 0;
       border-bottom-left-radius: 12px;
     }
-    
+
     &__header {
       border-bottom: 1px solid $green-middle;
       padding: 20px 20px 20px 28px;
@@ -168,20 +168,9 @@ import Button from '@/components/shared/ui/Button.vue';
       align-items: center;
       justify-content: flex-end;
       padding: 8px;
-    }
 
-    &__delete {
-      background: none;
-      border: none;
-      color: $white;
-      font-size: 20px;
-      line-height: 32px;
-      font-weight: 500;
-      transition: color 0.2s;
-
-      &:hover,
-      &:focus {
-        color: #e63946;
+      .button__icon{
+        padding-top: 5px;
       }
     }
   }

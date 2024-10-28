@@ -144,6 +144,7 @@ const logout = () => {
     border-radius: 12px;
     background-color: $dark-middle;
     box-shadow: 0px 15px 46px -10px rgba(0, 0, 0, 0.6);
+    z-index: 1;
 
     &::before {
       position: absolute;
