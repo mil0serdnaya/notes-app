@@ -126,11 +126,7 @@ watch(
   </transition>
 </template>
 
-<style scoped lang="scss">
-.modal-overlay {
-  @include modal-overlay;
-}
-
+<style lang="scss" scoped>
 .modal {
   @include modal;
   padding: 40px 16px;

@@ -88,7 +88,7 @@ import Button from '@/components/shared/ui/Button.vue';
   </section>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .notes {
   padding: 20px;
 

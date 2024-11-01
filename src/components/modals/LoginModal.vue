@@ -113,27 +113,7 @@ watch(
 
 
 
-<style scoped lang="scss">
-.modal-overlay {
-  @include modal-overlay;
-}
-
-.modal {
-  @include modal;
-
-  &__header {
-    @include modal-header;
-  }
-
-  &__title {
-    @include modal-title;
-  }
-
-  &__close {
-    @include modal-close;
-  }
-}
-
+<style lang="scss" scoped>
 .modal-form {
   @include flex-center(column, center, normal);
 

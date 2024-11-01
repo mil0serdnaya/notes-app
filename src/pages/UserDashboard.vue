@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { useModalStore } from '@/stores/modalStore';
 import DefaultLayout from '@/layouts/DefaultLayout.vue';
+import AddNoteModal from '@/components/modals/AddNoteModal.vue';
 import Notes from '@/components/Notes.vue';
 import Button from '@/components/shared/ui/Button.vue';
 import IconPlus from '@/components/icons/IconPlus.vue';
+
+const modalStore = useModalStore();
 </script>
 
 <template>
@@ -12,11 +16,12 @@ import IconPlus from '@/components/icons/IconPlus.vue';
       <Button 
         :icon="IconPlus"
         variant="round"
-        @click=""
+        @click="modalStore.openModal('add-note')"
         aria-label="Добавить заметку"
         class="add-note__btn"
       />
     </div>
+    <AddNoteModal />
   </DefaultLayout>
 </template>
 

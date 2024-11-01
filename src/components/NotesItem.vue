@@ -17,7 +17,7 @@ import Button from '@/components/shared/ui/Button.vue';
   </article>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .note {
   background-color: $green-light;
   border-radius: 12px;

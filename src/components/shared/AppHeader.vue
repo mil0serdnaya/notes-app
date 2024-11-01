@@ -67,7 +67,7 @@ const logout = () => {
 </template>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
 .header {
   padding: 20px;
   display: flex;

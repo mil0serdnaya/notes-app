@@ -1,4 +1,5 @@
 @use "./global/normalize";
+@use "./modal";
 
 #app {
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
@@ -12,4 +13,8 @@
 // Common
 .no-scroll {
   overflow: hidden;
+}
+
+.v-hidden {
+  visibility: hidden;
 }

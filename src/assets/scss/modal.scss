@@ -1,0 +1,21 @@
+@use "./global/mixins" as *;
+
+.modal-overlay {
+  @include modal-overlay;
+}
+
+.modal {
+  @include modal;
+
+  &__header {
+    @include modal-header;
+  }
+
+  &__title {
+    @include modal-title;
+  }
+
+  &__close {
+    @include modal-close;
+  }
+}
