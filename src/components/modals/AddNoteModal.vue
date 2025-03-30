@@ -93,8 +93,8 @@ watch(
 
 <style lang="scss" scoped>
 .modal--add-note {
-  padding: 24px 16px;
   @include modal;
+  padding: 24px 16px;
 }
 
 .modal-form {
